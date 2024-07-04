@@ -1,19 +1,30 @@
+import React, { useState } from "react";
 import "./App.css";
 import logo from "./images/logo.png";
 
 function App() {
+  const [url, setUrl] = useState("");
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    alert(url);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="app">
+      <div className="app-header">
         <img src={logo} className="logo" alt="logo" />
         <h1>URL Parser</h1>
-        <form>
+        <form onSubmit={handleFormSubmit}>
           <input
             type="text"
-            placeholder="Enter http(s) URL e.g https//github.com"
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Enter http(s) URL e.g http(s)://github.com"
           />
+          <button className="submit-button" type="submit">
+            Submit
+          </button>
         </form>
-      </header>
+      </div>
     </div>
   );
 }
