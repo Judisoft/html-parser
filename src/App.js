@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import "./App.css";
+import "./styles/App.css";
 import logo from "./images/logo.png";
+import axios from "axios";
+import Table from "./components/Table";
 
 function App() {
   const [url, setUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(true); // Initially assume URL is valid
+  const [scrappedPageData, setScrappedPageData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Validate URL before submission
     if (isValidHttpUrl(url)) {
-      setIsValidUrl(true);
-      alert("Valid URL: " + url);
-      // Handle form submission or other actions here
+      fetchUrlData();
     } else {
       setIsValidUrl(false);
     }
@@ -32,6 +34,25 @@ function App() {
     return urlPattern.test(url);
   };
 
+  // Send a GET request to the server
+  const fetchUrlData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:5000/api/v1/parse-html-page", {
+        params: {
+          url: url,
+        },
+      });
+      setScrappedPageData(response.data);
+      console.log(response.data)
+      setIsValidUrl(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="app">
       <div className="app-header">
@@ -48,11 +69,17 @@ function App() {
           )}
           <div>
             <button className="submit-button" type="submit">
-              Submit
+              {loading ? "Fetching data..." : "Submit"}
             </button>
           </div>
         </form>
       </div>
+      {scrappedPageData && Object.keys(scrappedPageData).length > 0 ? (
+        <>
+          <h1>Data for {url}</h1>
+          <Table scrappedPageData={scrappedPageData.data} />
+        </>
+      ) : null}
     </div>
   );
 }
