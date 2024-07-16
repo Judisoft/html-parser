@@ -35,7 +35,7 @@ const  App = () => {
     );
   
     // Enforce http or https at the beginning
-    return urlPattern.test(url) && (url.startsWith("http://") || url.startsWith("https://"));
+    return urlPattern.test(url) && (url.startsWith("http://") || url.startsWith("https://") );
   };
   
 
@@ -69,7 +69,7 @@ const  App = () => {
         <form onSubmit={handleFormSubmit}>
           <input
             type="text"
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => setUrl(e.target.value.toLocaleLowerCase())}
             placeholder="Enter http(s) URL e.g http(s)://github.com"
           />
           {!isValidUrl && (
