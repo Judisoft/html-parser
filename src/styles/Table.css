@@ -1,23 +1,23 @@
-
-
-/* Breakpoints */
-:root {
-  --bp-maggie: 15em;
-  --bp-lisa: 30em;
-  --bp-bart: 48em;
-  --bp-marge: 62em;
-  --bp-homer: 75em;
+/* General styles */
+.app-header {
+  text-align: center;
+  padding: 1em;
 }
 
-a {
-  color: rgb(96, 99, 136);
+.logo {
+  width: 50px;
+  height: 50px;
 }
 
-a:hover,
-a:focus {
-  color: #1c3154;
+.error-message {
+  color: red;
 }
 
+.result {
+  margin: 1em;
+}
+
+/* Container */
 .container {
   margin: 5% 3%;
 }
@@ -35,6 +35,7 @@ a:focus {
   }
 }
 
+/* Responsive Table */
 .responsive-table {
   width: 100%;
   margin-bottom: 1.5em;
@@ -53,6 +54,7 @@ a:focus {
   }
 }
 
+/* Table Headers */
 .responsive-table thead {
   position: absolute;
   clip: rect(1px, 1px, 1px, 1px);
@@ -85,6 +87,7 @@ a:focus {
   text-align: left;
 }
 
+/* Table Body */
 .responsive-table tbody,
 .responsive-table tr,
 .responsive-table th,
@@ -130,7 +133,7 @@ a:focus {
   }
 }
 
-
+/* Caption */
 @media (min-width: 48em) {
   .responsive-table caption {
     font-size: 1.5em;
@@ -174,7 +177,6 @@ a:focus {
     background-color: rgba(0, 0, 0, 0.12);
   }
 }
-
 
 @media (min-width: 30em) {
   .responsive-table tbody th[scope="row"] {
