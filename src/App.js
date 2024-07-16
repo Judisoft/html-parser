@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import "./styles/App.css";
 import logo from "./images/logo.png";
 import axios from "axios";
-import Table from "./components/Table";
+import PageData from "./components/PageData";
+import LinksValidationResult from "./components/LinksValidationResult";
 
-function App() {
+const  App = () => {
   const [url, setUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(true); // Initially assume URL is valid
   const [scrappedPageData, setScrappedPageData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -31,8 +33,11 @@ function App() {
         "(\\#[-a-z\\d_]*)?$", // fragment locator
       "i"
     );
-    return urlPattern.test(url);
+  
+    // Enforce http or https at the beginning
+    return urlPattern.test(url) && (url.startsWith("http://") || url.startsWith("https://"));
   };
+  
 
   // Send a GET request to the server
   const fetchUrlData = async () => {
@@ -47,7 +52,7 @@ function App() {
       console.log(response.data)
       setIsValidUrl(true);
     } catch (error) {
-      console.error(error);
+      setError(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -58,6 +63,9 @@ function App() {
       <div className="app-header">
         <img src={logo} className="logo" alt="logo" />
         <h1>URL Parser</h1>
+        {error && (
+            <p className="error-message">{error}</p>
+          )}
         <form onSubmit={handleFormSubmit}>
           <input
             type="text"
@@ -65,7 +73,7 @@ function App() {
             placeholder="Enter http(s) URL e.g http(s)://github.com"
           />
           {!isValidUrl && (
-            <p className="error-message">Please enter a valid HTTP(S) URL.</p>
+            <p className="error-message">Please enter a valid URL beginning with http(s)://domain-name.com</p>
           )}
           <div>
             <button className="submit-button" type="submit">
@@ -75,10 +83,12 @@ function App() {
         </form>
       </div>
       {scrappedPageData && Object.keys(scrappedPageData).length > 0 ? (
-        <>
+        <div className="result">
           <h1>Data for {url}</h1>
-          <Table scrappedPageData={scrappedPageData.data} />
-        </>
+          <PageData scrappedPageData={scrappedPageData.data} />
+          <h1>Links Validation Results</h1>
+          <LinksValidationResult scrappedPageData={scrappedPageData.data.linkValidationResults} />
+        </div>
       ) : null}
     </div>
   );

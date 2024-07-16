@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Table.css";
 
-const Table = ({scrappedPageData}) => {
+const PageData = ({scrappedPageData}) => {
   return (
     <div className="container">
     <table className="responsive-table">
@@ -37,4 +37,4 @@ const Table = ({scrappedPageData}) => {
   )
 }
 
-export default Table
+export default PageData
