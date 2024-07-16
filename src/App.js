@@ -69,7 +69,7 @@ const  App = () => {
         <form onSubmit={handleFormSubmit}>
           <input
             type="text"
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => setUrl(e.target.value.toLowerCase())}
             placeholder="Enter http(s) URL e.g http(s)://github.com"
           />
           {!isValidUrl && (
