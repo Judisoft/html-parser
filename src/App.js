@@ -43,7 +43,7 @@ const  App = () => {
   const fetchUrlData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/v1/parse-html-page", {
+      const response = await axios.get("https://html-parser-backend.onrender.com", {
         params: {
           url: url,
         },
